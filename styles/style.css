@@ -1,0 +1,123 @@
+@font-face {
+  src: url("../fonts/Merriweather-Regular.ttf");
+  font-family: Merriweater;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Merriweater;
+  --main-text-color: #f7f7f7;
+  --secondary-text-color: #a4a4a4;
+}
+
+.clearfix:after {
+  content: " "; /* Older browser do not support empty content */
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--main-text-color);
+  z-index: 1;
+}
+
+.navbar > .navbar__list {
+  float: right;
+  list-style-type: none;
+  margin: 0;
+  font-size: 0;
+}
+
+.navbar > .navbar__list > .navbar__item {
+  display: inline-block;
+  font-size: 1rem;
+}
+
+.navbar > .navbar__list > .navbar__item a {
+  display: inline-block;
+  text-decoration: none;
+  padding: 20px;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar > .navbar__list > .navbar__item--active a {
+  color: var(--main-text-color);
+  background-color: var(--secondary-text-color);
+}
+
+.navbar > .navbar__list > .navbar__item a:hover {
+  color: var(--main-text-color);
+  background-color: var(--secondary-text-color);
+}
+
+.header > .header__title {
+  position: absolute;
+  left: 0;
+  top: 66%;
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size: 6rem;
+}
+
+.header > .header__cite {
+  position: absolute;
+  top: 62%;
+  width: 100%;
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.header > .header__image {
+  background-image: url(../images/segovia.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100vh;
+}
+
+.section__header {
+  background-color: gray;
+  padding: 0.1rem;
+  text-align: center;
+}
+
+.who-i-am > .who-i-am__image {
+  float: left;
+  max-width: 50%;
+  width: 100%;
+  /*background-image: url(../images/oscar.jpg);*/
+  margin: 1rem auto;
+}
+
+.who-i-am > .who-i-am__image img {
+  /*background-image: url(../images/oscar.jpg);*/
+  /*background-color: red;
+  background-position: center center;*/
+  /*width: 50%;*/
+  width: 100%;
+  /*max-width: 100%;*/
+  border-radius: 5%;
+}
+
+.who-i-am > .who-i-am__info {
+  float: right;
+  max-width: 50%;
+}
+.who-i-am > .who-i-am__info > .who-i-am__description {
+  font-size: 1.5rem;
+}
+.footer {
+  background-color: rgba(0, 0, 0, 0.92);
+  color: var(--main-text-color);
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+}
