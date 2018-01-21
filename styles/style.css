@@ -1,6 +1,13 @@
+/*GENERAL*/
 @font-face {
   src: url("../fonts/Merriweather-Regular.ttf");
   font-family: Merriweater;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 body {
@@ -19,6 +26,7 @@ body {
   clear: both;
 }
 
+/*MENÚ NAVEGACIÓN*/
 .navbar {
   position: fixed;
   top: 0;
@@ -56,6 +64,7 @@ body {
   background-color: var(--secondary-text-color);
 }
 
+/*CABECERA PÁGINA*/
 .header > .header__title {
   position: absolute;
   left: 0;
@@ -83,10 +92,20 @@ body {
   height: 100vh;
 }
 
+.section-container {
+  background-color: green;
+}
+
+/*CABECERA SECCIONES*/
 .section__header {
   background-color: gray;
   padding: 0.1rem;
   text-align: center;
+}
+
+/*SECCIÓN QUIEN SOY*/
+.who-i-am {
+  background-color: brown;
 }
 
 .who-i-am > .who-i-am__image {
@@ -94,7 +113,9 @@ body {
   max-width: 50%;
   width: 100%;
   /*background-image: url(../images/oscar.jpg);*/
-  margin: 1rem auto;
+  /*margin: 1rem auto;*/
+  padding: 1rem 0rem;
+  background-color: blue;
 }
 
 .who-i-am > .who-i-am__image img {
@@ -110,10 +131,133 @@ body {
 .who-i-am > .who-i-am__info {
   float: right;
   max-width: 50%;
+  padding: 1rem;
+  text-align: justify;
+  background-color: purple;
 }
 .who-i-am > .who-i-am__info > .who-i-am__description {
-  font-size: 1.5rem;
+  /*font-size: 1.5rem;*/
+  /*padding-top: 1rem;*/
 }
+
+.who-i-am > .who-i-am__info .who-i-am__name {
+  /*font-size: 1.5rem;*/
+  /*padding-top: 1rem;*/
+  font-weight: bold;
+}
+
+/*SECCIÓN ESTUDIOS*/
+.education-member {
+  padding-left: 1rem;
+  background-color: blue;
+}
+
+.container__education,
+.container__expericence {
+  background-color: blue;
+  padding: 0.5rem;
+}
+
+.row-align-left {
+  text-align: left;
+}
+
+.row-align-justify {
+  text-align: justify;
+}
+
+.row-align-top {
+  vertical-align: top;
+}
+
+table {
+  width: 100%;
+  /*border-collapse: collapse;*/
+}
+
+tbody {
+  /*background-color: #ffffff;*/
+  color: black;
+}
+
+thead > tr {
+  background-color: #ffffff;
+  color: black;
+}
+
+th,
+td {
+  height: 2rem;
+  text-align: justify;
+}
+
+td:nth-child(2) {
+  text-align: center;
+}
+
+.container__education-cite {
+  /*background-color: green;
+  color: white;*/
+  font-size: 0.8rem;
+}
+
+/*SECCIÓN EXPERIENCIA*/
+.about-me {
+  background-color: brown;
+}
+
+/*SECCIÓN SOBRE MI*/
+.about-me > .about-me__video {
+  float: left;
+  max-width: 50%;
+  width: 100%;
+  background-color: blue;
+}
+
+.about-me > .about-me__video video {
+  margin-left: 1rem;
+}
+
+.about-me > .about-me__info {
+  float: right;
+  max-width: 50%;
+  padding: 1rem;
+  text-align: justify;
+  background-color: purple;
+}
+
+/*CONTACTO*/
+.form {
+  padding: 0 1.2rem;
+}
+
+.form .form-row {
+  padding: 0.8rem;
+}
+
+input {
+  padding: 0.5rem;
+  border: 0.1rem solid #ccc;
+}
+
+#telefono {
+}
+
+button[type="submit"] {
+  background-color: #4caf50;
+  padding: 1rem 4rem;
+  border: none;
+  color: white;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  height: 20rem;
+}
+
+/*PIE*/
 .footer {
   background-color: rgba(0, 0, 0, 0.92);
   color: var(--main-text-color);
