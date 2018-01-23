@@ -375,16 +375,16 @@
                 </div>
                 <div class="about-me__info">
                     <p class="about-me__description">
-                        Soy una persona a la que le gusta viajar y conocer mundo, gracias a ello he podido disfrutar de la compañía de personas de
-                        diferentes regiones del mundo, experiencia muy enriquecedora.
-                        <br>
-                        <br> Hogareño, familiar, me gusta pasear, montar en bici, ver cine, leer, estar con mis amigos. Desde
+                        Soy una persona hogareña, familiar, a la que le gusta pasear, montar en bici, ver cine, leer, estar con mis amigos. Desde
                         hace poco tiempo he tenido que aparcar algunas de estas aficiones porque he descubierto una afición
                         aún mayor, mi hija, a la cual adoro y disfruto cada momento con ella.
                         <br>
-                        <br> Me encanta programar, una vez que conseguí mi primer pc (un Pentium) mi objetivo ha consistido en
-                        ir ampliando mi conocimiento y experiencia. Ahora llega el momento de ir un paso más allá cambiando
-                        a tecnología Web, aprendiendo HTML5, CSS3 y un JavaScript que está llamado a gobernarlos a todos.
+                        <br> He tenido la suerte de poder viajar y conocer mundo, gracias a ello he podido disfrutar de la compañía
+                        de personas de diferentes regiones del mundo, experiencia muy enriquecedora.
+                        <br>
+                        <br> Me encanta programar, una vez que conseguí mi primer pc mi objetivo ha consistido en ir ampliando
+                        mi conocimiento y experiencia. Ahora llega el momento de ir un paso más allá cambiando a tecnología
+                        Web, aprendiendo HTML5, CSS3 y un JavaScript que está llamado a gobernarlos a todos.
                     </p>
                 </div>
             </div>
@@ -395,7 +395,7 @@
                 <h2>CONTACTO</h2>
             </header>
             <div class="row">
-                <div class="col-6">
+                <div class="col-6 contacto-column">
                     <div class="form">
                         <form name="contacto" method="get" novalidate>
                             <h3>
@@ -413,15 +413,15 @@
                             <h3>
                                 <u>¿Cómo me has conocido?</u>
                             </h3>
-                            <div class="form-row">
-                                <label for="tipo_conocido_1">LinkedIn</label>
+                            <div class="form-row col3">
                                 <input type="radio" class="radio" id="tipo_conocido_1" name="tipo_conocido" value="LinkedIn" required>
+                                <label for="tipo_conocido_1">LinkedIn</label>
 
-                                <label for="tipo_conocido_2">Twitter</label>
                                 <input type="radio" class="radio" id="tipo_conocido_2" name="tipo_conocido" value="Twitter" required>
+                                <label for="tipo_conocido_2">Twitter</label>
 
-                                <label for="tipo_conocido_3">Otros</label>
                                 <input type="radio" class="radio" id="tipo_conocido_3" name="tipo_conocido" value="Otros" required>
+                                <label for="tipo_conocido_3">Otros</label>
                                 <!--<input type="text" name="otros" required>-->
                                 <div id="contacto-tipo-conocido" class="floating-box">
                                     <!--<input type="text" name="otros">-->
@@ -435,14 +435,12 @@
                     </div>
                 </div>
 
-                <div class="col-6">
+                <div class="col-6 contacto-column">
                     <div class="comentarios">
                         <h3>
                             <u>Comentarios</u>
                         </h3>
-                        <textarea>
-                        At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
-                        </textarea>
+                        <textarea id="comentarios-texto" placeholder="Escriba aquí sus comentarios (máximo 150 palabras)" value=""></textarea>
                     </div>
                 </div>
         </section>
