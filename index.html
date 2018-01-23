@@ -165,7 +165,7 @@
 
                 <div class="col-6">
                     <div class="container__expericence">
-                        <table>
+                        <table class="container__expericence-table-width">
                             <thead>
                                 <tr>
                                     <th class="row-align-left" width="65%">Proyectos nacionales</th>
@@ -397,7 +397,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form">
-                        <form name="contacto" method="get">
+                        <form name="contacto" method="get" novalidate>
                             <h3>
                                 <u>Datos de contacto</u>
                             </h3>
@@ -407,23 +407,25 @@
                                 <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required>
                             </div>
                             <div class="form-row">
-                                <input type="email" id="email" name="email" placeholder="name@company.com" pattern="[A-Za-z0-9\.\+]+@[A-Za-z0-9]+\.[A-Za-z0-9\.]+"
-                                    required>
-                                <input id="telefono" name="telefono" type="tel" maxlength="9" placeholder="123456789" pattern="[0-9]" required>
+                                <input type="email" id="email" name="email" placeholder="nombre@compañía.es" required>
+                                <input type="tel" id="telefono" name="telefono" maxlength="9" placeholder="teléfono" required>
                             </div>
                             <h3>
                                 <u>¿Cómo me has conocido?</u>
                             </h3>
                             <div class="form-row">
                                 <label for="tipo_conocido_1">LinkedIn</label>
-                                <input type="radio" id="tipo_conocido_1" name="tipo_conocido" value="LinkedIn" required>
+                                <input type="radio" class="radio" id="tipo_conocido_1" name="tipo_conocido" value="LinkedIn" required>
 
                                 <label for="tipo_conocido_2">Twitter</label>
-                                <input type="radio" id="tipo_conocido_2" name="tipo_conocido" value="Twitter" required>
+                                <input type="radio" class="radio" id="tipo_conocido_2" name="tipo_conocido" value="Twitter" required>
 
                                 <label for="tipo_conocido_3">Otros</label>
-                                <input type="radio" id="tipo_conocido_3" name="tipo_conocido" value="Otros" required>
-                                <input type="text" name="otros">
+                                <input type="radio" class="radio" id="tipo_conocido_3" name="tipo_conocido" value="Otros" required>
+                                <!--<input type="text" name="otros" required>-->
+                                <div id="contacto-tipo-conocido" class="floating-box">
+                                    <!--<input type="text" name="otros">-->
+                                </div>
                                 <br>
                             </div>
                             <div class="form-row">
@@ -451,6 +453,7 @@
     </footer>
 
     <script src="./scripts/menu.js"></script>
+    <script src="./scripts/form.js"></script>
 </body>
 
 </html>
