@@ -291,7 +291,9 @@ input {
   display: inline-block;
 }
 
-button[type="submit"] {
+/*button[type="submit"] {*/
+#send-button,
+#receive-button {
   background-color: #b0bec5;
   padding: 1rem 4rem;
   border: none;

@@ -1,56 +1,122 @@
-//Obtenemos elemento formulario y sus campos
-var form = document.getElementsByName("contacto")[0];
+// DECLARACIONES DE VARIABLES
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-var nombreInput = document.getElementById("nombre");
-var apellidosInput = document.getElementById("apellidos");
-var emailInput = document.getElementById("email");
-var telefonoInput = document.getElementById("telefono");
-var comentariosInput = document.getElementById("comentarios-texto");
-//console.log(comentariosInput);
+var form = document.getElementsByName("contact")[0];
 
-//var tipoConocidoRadioInput = document.getElementsByClassName("radio");
-//console.log(tipoConocidoRadioInput);
+var nameInput = document.getElementById("contact-name");
+var surnameInput = document.getElementById("contact-surname");
+var emailInput = document.getElementById("contact-email");
+var phoneInput = document.getElementById("contact-phone");
+var commentsInput = document.getElementById("comments-text");
 
-var tipoConocidoInput = {
-  tipoConocido1: document.getElementById("tipo_conocido_1"),
-  tipoConocido2: document.getElementById("tipo_conocido_2"),
-  tipoConocido3: document.getElementById("tipo_conocido_3")
+var knownTypeInput = {
+  knownType1: document.getElementById("contact-know-type-1"),
+  knownType2: document.getElementById("contact-know-type-2"),
+  knownType3: document.getElementById("contact-know-type-3")
 };
 
-//Obtenemos elemento radio junto a su campo de texto otros
-var contactoTipoConocido = document.getElementById("contacto-tipo-conocido");
-var otros = document.getElementsByName("otros");
+// Contenedor e input text dinámico de otros
+var contactKnowTypeOthers = document.getElementById("contact-know-type-others"); //Contenedor div
 
-//Declaramos el elemento de texto otros
-/*var containerHtml = '<div class="floating-box"></div>';
-var containerElement = document.createElement("div");*/
+var contactKnowTypeOthersText = document.getElementsByName(
+  "contact-know-type-others-text" //input text otros
+);
 
-var textHtml = '<input type="text" name="otros" id="otros" maxlength="20">';
+// Input text otros (creación dinámica)
+var textHtml =
+  '<input type="text" name="contact-know-type-others-text" id="contact-know-type-others-text" maxlength="20">';
 var textElement = document.createElement("div");
 textElement.innerHTML = textHtml;
 
-//containerElement.appendChild(textElement);
+var sendButton = document.getElementById("send-button");
 
-//Declaramos evento del botón de envío
-form.addEventListener("submit", enviarInfo);
+// DECLARACIÓN DE EVENTOS
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function enviarInfo(event) {
-  //Validamos nombre
-  if (nombreInput.checkValidity() === false) {
+// Envío de datos de contacto
+form.addEventListener("submit", sendContact);
+
+// Cambio de elemento del input radio
+var radioInput = document.querySelectorAll("input[type=radio]");
+for (var i = 0; i < radioInput.length; i++) {
+  radioInput[i].addEventListener("click", changeKnowType, 0);
+}
+
+// Contar palabras de textarea
+commentsInput.addEventListener("keypress", filterIntro);
+commentsInput.addEventListener("keyup", checkMaxWords);
+commentsInput.addEventListener("paste", filterPaste);
+
+// FUNCIONES
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// Función de envío de contactos
+function sendContact(event) {
+  //console.log(commentsInput);
+
+  var contactOK = checkContact(event);
+  if (contactOK == false) {
+    return false;
+  }
+
+  sendButton.setAttribute("disabled", "");
+  event.preventDefault();
+
+  var data = getContactData();
+
+  createDataAjax(data);
+
+  setTimeout(function() {
+    //form.reset();
+    sendButton.removeAttribute("disabled");
+  }, 1000);
+}
+
+function getContactData() {
+  var option = "";
+  for (var i = 0; i < radioInput.length; i++) {
+    if (radioInput[i].checked === true) {
+      option = radioInput[i].value;
+      break;
+    }
+  }
+
+  var option_others = "";
+  if (currentIndex == radioInput.length - 1) {
+    option_others = contactKnowTypeOthersText[0].value.trim();
+  }
+
+  var data = new ContactData(
+    nameInput.value,
+    surnameInput.value,
+    emailInput.value,
+    phoneInput.value,
+    option,
+    option_others,
+    commentsInput.value
+  );
+
+  return data;
+}
+
+function checkContact(event) {
+  // Validamos nombre
+  if (nameInput.checkValidity() === false) {
     alert("Escriba su nombre, por favor");
-    nombreInput.focus();
-    event.preventDefault();
-    return false;
-  }
-  //Validamos apellidos
-  if (apellidosInput.checkValidity() === false) {
-    alert("Escriba sus apellidos, por favor");
-    apellidosInput.focus();
+    nameInput.focus();
     event.preventDefault();
     return false;
   }
 
-  //Validamos el email
+  // Validamos apellidos
+  if (surnameInput.checkValidity() === false) {
+    alert("Escriba sus apellidos, por favor");
+    surnameInput.focus();
+    event.preventDefault();
+    return false;
+  }
+
+  // Validamos el email
   var regex = /[A-Za-z0-9\.\+]+@[A-Za-z0-9]+\.[A-Za-z0-9\.]+/;
   var resultEmailValidation = regex.test(emailInput.value);
 
@@ -61,104 +127,116 @@ function enviarInfo(event) {
     return false;
   }
 
-  //Validamos el teléfono
-  var telefono = telefonoInput.value.trim();
+  // Validamos el teléfono
+  var phone = phoneInput.value.trim();
 
-  if (telefono.length != 9) {
+  if (phone.length != 9) {
     alert("Escriba un teléfono correcto, por favor (9 dígitos)");
-    telefonoInput.focus();
+    phoneInput.focus();
     event.preventDefault();
     return false;
   }
 
   var regex = /[6|9][0-9]+/;
-  var resultPhoneValidation = regex.test(telefono);
+  var resultPhoneValidation = regex.test(phone);
 
   if (resultPhoneValidation === false) {
     alert("Escriba un teléfono correcto, por favor (debe empezar por 6 o 9)");
-    telefonoInput.focus();
+    phoneInput.focus();
     event.preventDefault();
     return false;
   }
 
-  //Validamos los inputs radio tipo_conocido
-  if (tipoConocidoInput.tipoConocido1.checkValidity() === false) {
+  // Validamos los inputs radio
+  if (knownTypeInput.knownType1.checkValidity() === false) {
     alert("Seleccione una opción de cómo me has conocido, por favor");
     event.preventDefault();
     return false;
   }
 
-  //Validamos el campo de texto de otros
-  if (currentIndex == 2) {
-    if (otros[0].value.trim() == "") {
+  //Validamos el campo de texto otros
+  if (currentIndex == radioInput.length - 1) {
+    if (contactKnowTypeOthersText[0].value.trim() == "") {
       alert("Escriba la opción de cómo me has conocido, por favor");
-      otros[0].focus();
+      contactKnowTypeOthersText[0].focus();
       event.preventDefault();
       return false;
     }
   }
 
-  //Por ahora que no mande nada
-  event.preventDefault();
-  return false;
+  //Validamos si el campo comentarios sobrepasa las 150 palabras
+  var contador = countWords(commentsInput.value);
+  if (contador > 150) {
+    //this.value = previewText;
+    alert(
+      "El contenido escrito sobrepasa las 150 palabras, por lo que no está permitido. Disculpe las molestias."
+    );
+
+    commentsInput.focus();
+    event.preventDefault();
+    return false;
+  }
+
+  return true;
 }
 
-//Declaramos evento de cambio de los input radio
-var radioInput = document.querySelectorAll("input[type=radio]");
-//x = radioInput.length;
+function resetData() {
+  /*nameInput.value = "";
+  surnameInput.value = "";
+  emailInput.value = "";
+  phoneInput.value = "";
+  commentsInput.value = "";
 
-/*while (x--) {
-  console.log(x);
-  radioInput[x].addEventListener("change", cambiarOpcionConocido, 0);
-}*/
+  for (var i = 0; i < radioInput.length; i++) {
+    if (radioInput[i].checked === true) {
+      radioInput[i].checked = false;
+      break;
+    }
+  }*/
 
-for (var i = 0; i < radioInput.length; i++) {
-  radioInput[i].addEventListener("click", cambiarOpcionConocido, 0);
-  //console.log("L " + i);
+  var formReset = document.getElementsByName("contact")[0];
+  formReset.reset();
+
+  currentIndex = -1;
+  contactKnowTypeOthers.removeChild(textElement);
+
+  commentsInput.value = "";
+
+  nameInput.focus();
 }
 
 var currentIndex = -1;
-
-function cambiarOpcionConocido(event) {
-  //console.log(radioInput.length);
+function changeKnowType(event) {
   var newIndex;
 
   for (var i = 0; i < radioInput.length; i++) {
-    //console.log(radioInput[i].value + " = " + radioInput[i].checked);
     if (radioInput[i].checked === true) {
       newIndex = i;
       break;
     }
   }
 
-  console.log("A " + newIndex);
   if (newIndex == currentIndex) {
-    return;
+    return false;
   }
 
-  if (newIndex == 2) {
-    //Añado campo de texto otros
-    console.log("Añado");
+  if (newIndex == radioInput.length - 1) {
+    //console.log("Añado");
     textElement.value = "";
-    //contactoTipoConocido.appendChild(textElement);
-    contactoTipoConocido.appendChild(textElement);
-    //textElement.focus();
-    otros[0].focus();
+    contactKnowTypeOthers.appendChild(textElement);
+    contactKnowTypeOthersText[0].focus();
   } else {
-    if (currentIndex == 2) {
-      //Borro campo de texto otros
-      contactoTipoConocido.removeChild(textElement);
-      console.log("Borro");
+    if (currentIndex == radioInput.length - 1) {
+      contactKnowTypeOthers.removeChild(textElement);
+      //console.log("Borro");
     }
   }
 
   currentIndex = newIndex;
 }
 
-//Contar palabras de textarea
-comentariosInput.addEventListener("keypress", filtrarIntro);
-
-function filtrarIntro(event) {
+// Funciones de filtro de 150 palabras en campo comentarios
+function filterIntro(event) {
   //Filtramos 13. Intro Y 17. Ctrl. Este último para evitar copy paste
   if (event.keyCode == 13 || event.keyCode == 17) {
     //this.value = previewText;
@@ -173,19 +251,9 @@ function filtrarIntro(event) {
   }
 }
 
-comentariosInput.addEventListener("keyup", contarPalabras);
-var previewContador = 0;
-var previewText = "";
-
-function contarPalabras(event) {
-  console.log(event.keyCode);
-
-  var comentario = this.value; // + String.fromCharCode(event.keyCode);
+function countWords(text) {
+  var comentario = text;
   var arrayPalabras = comentario.split(" ");
-  /*if (arrayPalabras == null) {
-    event.preventDefault();
-    return false;
-  }*/
 
   var contador = 0;
 
@@ -194,10 +262,30 @@ function contarPalabras(event) {
       contador += 1;
     }
   }
+  return contador;
+}
+
+var previewContador = 0;
+var previewText = "";
+function checkMaxWords(event) {
+  //console.log(event.keyCode);
+
+  var contador = countWords(this.value);
+
+  /*var comentario = this.value;
+  var arrayPalabras = comentario.split(" ");
+
+  var contador = 0;
+
+  for (i = 0; i < arrayPalabras.length; i++) {
+    if (arrayPalabras[i].length >= 1) {
+      contador += 1;
+    }
+  }*/
 
   console.log(contador.toString());
 
-  previewContador = contador;
+  //previewContador = contador;
 
   if (contador > 150) {
     //this.value = previewText;
@@ -211,23 +299,49 @@ function contarPalabras(event) {
   }
 
   previewText = this.value;
-
-  /*console.log(event.key);
-  event.preventDefault();
-  return false;*/
-
-  /*if (this.value == "") {
-    console.log("nada");
-  } else {
-    console.log(this.value);
-  }*/
+  previewContador = contador;
 }
 
-//Filtramos paste de textarea
-comentariosInput.addEventListener("paste", filtrarPaste);
+function filterPaste(event) {
+  var contador = countWords(commentsInput.value);
+  if (contador > 150) {
+    //this.value = previewText;
+    alert(
+      "El contenido escrito sobrepasa las 150 palabras, por lo que no está permitido. Disculpe las molestias."
+    );
 
-//Si queremos ser estrictos desactivamos el paste y listo
-function filtrarPaste(event) {
-  event.preventDefault();
-  return false;
+    commentsInput.value = previewText;
+    commentsInput.focus();
+    event.preventDefault();
+    return false;
+  }
+
+  //event.preventDefault();
+  //return false;
+}
+
+// Funciones de visualización de la lista de contactos enviados
+function receiveContactList(event) {
+  receiveButton.setAttribute("disabled", "");
+
+  getDataAjax();
+
+  openModalContactList();
+
+  setTimeout(function() {
+    //form.reset();
+    receiveButton.removeAttribute("disabled");
+  }, 1000);
+}
+
+//CLASES
+
+function ContactData(name, surname, email, phone, option, other, comments) {
+  this.name = name;
+  this.surname = surname;
+  this.email = email;
+  this.phone = phone;
+  this.option = option;
+  this.other = other;
+  this.comments = comments;
 }

@@ -103,7 +103,6 @@ function changeMenuStyle(event) {
   } else if (pageYOffset >= experienciaOffset && pageYOffset < sobreMiOffset) {
     if (!previous || previous !== 4) {
       previous = 4;
-      console.log("4");
     } else {
       return false;
     }
