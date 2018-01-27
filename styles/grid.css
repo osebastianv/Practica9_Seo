@@ -1,16 +1,8 @@
 //Var no funciona en IE11
-/*body {
-  --grid-size: 12;
-}*/
-
 .container {
   width: 100%;
   margin: 0 auto;
   max-width: 1200px;
-}
-
-.section-container {
-  /*padding: 30px 0;*/
 }
 
 .row:before,

@@ -9,27 +9,14 @@ function getDataAjax() {
   ) {
     if (status != 200 && status != 201) {
       alert("Error al obtener los datos, vuelva a intentarlo por favor");
-      //return false;
+      return false;
     }
 
-    //var div = document.createElement("div");
     var response = JSON.parse(responseText);
-
-    /*console.log(response);
-
-    var children = "";
-
-    for (i = 0; i < response.length; i++) {
-      children += "<p>" + response[i].name + "</p>";
-    }
-
-    div.innerHTML = children;
-
-    //modalWindowContent.appendChild(div);*/
 
     generate_table(response);
 
-    //return true;
+    openModalContactList();
   });
 }
 

@@ -8,6 +8,7 @@ var surnameInput = document.getElementById("contact-surname");
 var emailInput = document.getElementById("contact-email");
 var phoneInput = document.getElementById("contact-phone");
 var commentsInput = document.getElementById("comments-text");
+var commentsCounter = document.getElementById("comments-counter");
 
 var knownTypeInput = {
   knownType1: document.getElementById("contact-know-type-1"),
@@ -181,19 +182,6 @@ function checkContact(event) {
 }
 
 function resetData() {
-  /*nameInput.value = "";
-  surnameInput.value = "";
-  emailInput.value = "";
-  phoneInput.value = "";
-  commentsInput.value = "";
-
-  for (var i = 0; i < radioInput.length; i++) {
-    if (radioInput[i].checked === true) {
-      radioInput[i].checked = false;
-      break;
-    }
-  }*/
-
   var formReset = document.getElementsByName("contact")[0];
   formReset.reset();
 
@@ -237,7 +225,7 @@ function changeKnowType(event) {
 
 // Funciones de filtro de 150 palabras en campo comentarios
 function filterIntro(event) {
-  //Filtramos 13. Intro Y 17. Ctrl. Este último para evitar copy paste
+  /*//Filtramos 13. Intro Y 17. Ctrl. Este último para evitar copy paste
   if (event.keyCode == 13 || event.keyCode == 17) {
     //this.value = previewText;
     event.preventDefault();
@@ -248,11 +236,16 @@ function filterIntro(event) {
   if (previewContador >= 150 && event.keyCode == 32) {
     event.preventDefault();
     return false;
-  }
+  }*/
 }
 
 function countWords(text) {
   var comentario = text;
+  comentario = comentario.replace(/\r?\n/g, " ");
+  //comentario.replace("\\r\\n", " ");
+  //comentario.replace("\\n", " ");
+  //comentario = comentario.replace(/\\r\\n/g, " ");
+
   var arrayPalabras = comentario.split(" ");
 
   var contador = 0;
@@ -271,53 +264,56 @@ function checkMaxWords(event) {
   //console.log(event.keyCode);
 
   var contador = countWords(this.value);
-
-  /*var comentario = this.value;
-  var arrayPalabras = comentario.split(" ");
-
-  var contador = 0;
-
-  for (i = 0; i < arrayPalabras.length; i++) {
-    if (arrayPalabras[i].length >= 1) {
-      contador += 1;
-    }
-  }*/
+  refreshWordsCounter(contador);
 
   console.log(contador.toString());
 
-  //previewContador = contador;
-
   if (contador > 150) {
-    //this.value = previewText;
     alert(
-      "El contenido escrito sobrepasa las 150 palabras, por lo que no está permitido. Disculpe las molestias."
+      "El contenido escrito sobrepasa las 150 palabras, recorte el texto por favor."
     );
-    this.value = previewText;
+    //this.value = previewText;
     this.focus();
     event.preventDefault();
     return false;
   }
 
   previewText = this.value;
-  previewContador = contador;
+  //previewContador = contador;
 }
 
 function filterPaste(event) {
-  var contador = countWords(commentsInput.value);
-  if (contador > 150) {
-    //this.value = previewText;
-    alert(
-      "El contenido escrito sobrepasa las 150 palabras, por lo que no está permitido. Disculpe las molestias."
-    );
+  setTimeout(function() {
+    var contador = countWords(commentsInput.value);
 
-    commentsInput.value = previewText;
-    commentsInput.focus();
-    event.preventDefault();
-    return false;
+    if (previewContador == contador) {
+      return false; //para que no saque el mensaje de > 150 en los 2 eventos al copiar desde teclado
+    }
+    refreshWordsCounter(contador);
+
+    if (contador > 150) {
+      alert(
+        "El contenido escrito sobrepasa las 150 palabras, recorte el texto por favor."
+      );
+
+      //commentsInput.value = previewText;
+      commentsInput.focus();
+      //event.preventDefault();
+      //return false;
+    }
+  }, 500);
+}
+
+function refreshWordsCounter(contador) {
+  var text;
+  if (contador == 1) {
+    text = contador + " palabra (máx 150)";
+  } else {
+    text = contador + " palabras (máx 150)";
   }
 
-  //event.preventDefault();
-  //return false;
+  commentsCounter.innerText = text;
+  previewContador = contador;
 }
 
 // Funciones de visualización de la lista de contactos enviados
@@ -326,10 +322,7 @@ function receiveContactList(event) {
 
   getDataAjax();
 
-  openModalContactList();
-
   setTimeout(function() {
-    //form.reset();
     receiveButton.removeAttribute("disabled");
   }, 1000);
 }

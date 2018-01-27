@@ -38,9 +38,6 @@ function delete_table() {
 
 // Generación de la tabla en la ventana modal
 function generate_table(data) {
-  // Obtener la referencia del elemento body
-  //var body = document.getElementsByTagName("body")[0];
-
   // Crea un elemento <table> y un elemento <tbody>
   var tabla = document.createElement("table");
   tabla.id = "tabla-contacto";
@@ -56,7 +53,6 @@ function generate_table(data) {
     // texto sea el contenido de <td>, ubica el elemento <td> al final
     // de la hilera de la tabla
     var celda = document.createElement("th");
-    //celda.className = "row-align-left";
 
     var mitexto = "";
     switch (i) {
@@ -86,10 +82,6 @@ function generate_table(data) {
   tblHead.appendChild(hilera);
 
   var tblBody = document.createElement("tbody");
-
-  /*for (i = 0; i < response.length; i++) {
-    children += "<p>" + response[i].name + "</p>";
-  }*/
 
   // Crea las celdas
   for (var i = 0; i < data.length; i++) {
