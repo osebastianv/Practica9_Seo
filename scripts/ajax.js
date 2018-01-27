@@ -50,7 +50,6 @@ function makeRequest(method, url, body, callbackSuccess) {
   };
 
   if (body) {
-    console.log(JSON.stringify(body));
     xhr.send(JSON.stringify(body));
   } else {
     xhr.send();

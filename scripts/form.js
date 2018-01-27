@@ -1,6 +1,5 @@
 // DECLARACIONES DE VARIABLES
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 var form = document.getElementsByName("contact")[0];
 
 var nameInput = document.getElementById("contact-name");
@@ -44,7 +43,6 @@ for (var i = 0; i < radioInput.length; i++) {
 }
 
 // Contar palabras de textarea
-commentsInput.addEventListener("keypress", filterIntro);
 commentsInput.addEventListener("keyup", checkMaxWords);
 commentsInput.addEventListener("paste", filterPaste);
 
@@ -53,8 +51,6 @@ commentsInput.addEventListener("paste", filterPaste);
 
 // Función de envío de contactos
 function sendContact(event) {
-  //console.log(commentsInput);
-
   var contactOK = checkContact(event);
   if (contactOK == false) {
     return false;
@@ -68,7 +64,6 @@ function sendContact(event) {
   createDataAjax(data);
 
   setTimeout(function() {
-    //form.reset();
     sendButton.removeAttribute("disabled");
   }, 1000);
 }
@@ -168,9 +163,8 @@ function checkContact(event) {
   //Validamos si el campo comentarios sobrepasa las 150 palabras
   var contador = countWords(commentsInput.value);
   if (contador > 150) {
-    //this.value = previewText;
     alert(
-      "El contenido escrito sobrepasa las 150 palabras, por lo que no está permitido. Disculpe las molestias."
+      "El contenido escrito sobrepasa las 150 palabras, recorte el texto por favor."
     );
 
     commentsInput.focus();
@@ -209,42 +203,21 @@ function changeKnowType(event) {
   }
 
   if (newIndex == radioInput.length - 1) {
-    //console.log("Añado");
     textElement.value = "";
     contactKnowTypeOthers.appendChild(textElement);
     contactKnowTypeOthersText[0].focus();
   } else {
     if (currentIndex == radioInput.length - 1) {
       contactKnowTypeOthers.removeChild(textElement);
-      //console.log("Borro");
     }
   }
 
   currentIndex = newIndex;
 }
 
-// Funciones de filtro de 150 palabras en campo comentarios
-function filterIntro(event) {
-  /*//Filtramos 13. Intro Y 17. Ctrl. Este último para evitar copy paste
-  if (event.keyCode == 13 || event.keyCode == 17) {
-    //this.value = previewText;
-    event.preventDefault();
-    return false;
-  }
-
-  //Para evitar que se escriba el carácter y no entre en keyup
-  if (previewContador >= 150 && event.keyCode == 32) {
-    event.preventDefault();
-    return false;
-  }*/
-}
-
 function countWords(text) {
-  var comentario = text;
-  comentario = comentario.replace(/\r?\n/g, " ");
-  //comentario.replace("\\r\\n", " ");
-  //comentario.replace("\\n", " ");
-  //comentario = comentario.replace(/\\r\\n/g, " ");
+  var comentario = text.replace(/\r?\n/g, " ");
+  //comentario = comentario.replace(/\r?\n/g, " ");
 
   var arrayPalabras = comentario.split(" ");
 
@@ -259,47 +232,51 @@ function countWords(text) {
 }
 
 var previewContador = 0;
-var previewText = "";
-function checkMaxWords(event) {
-  //console.log(event.keyCode);
+//var previewText = "";
+var filtrarMensaje = false;
 
+function checkMaxWords(event) {
   var contador = countWords(this.value);
   refreshWordsCounter(contador);
 
-  console.log(contador.toString());
-
   if (contador > 150) {
-    alert(
-      "El contenido escrito sobrepasa las 150 palabras, recorte el texto por favor."
-    );
-    //this.value = previewText;
-    this.focus();
-    event.preventDefault();
-    return false;
+    if (filtrarMensaje == false) {
+      alert(
+        "El contenido escrito sobrepasa las 150 palabras, recorte el texto por favor."
+      );
+      filtrarMensaje = true;
+
+      this.focus();
+      event.preventDefault();
+      return false;
+    }
+  } else {
+    filtrarMensaje = false;
   }
 
-  previewText = this.value;
-  //previewContador = contador;
+  //previewText = this.value;
 }
 
 function filterPaste(event) {
+  //Ponemos el setTimeout para poder obtener el valos del campo al completo, ya que en el evento paste la propiedad value no contiene el el texto a pegar
   setTimeout(function() {
     var contador = countWords(commentsInput.value);
 
     if (previewContador == contador) {
-      return false; //para que no saque el mensaje de > 150 en los 2 eventos al copiar desde teclado
+      return false; //para que no saque el mensaje de > 150 en los 2 eventos (keyup y paste) al copiar desde teclado
     }
     refreshWordsCounter(contador);
 
     if (contador > 150) {
-      alert(
-        "El contenido escrito sobrepasa las 150 palabras, recorte el texto por favor."
-      );
-
-      //commentsInput.value = previewText;
-      commentsInput.focus();
-      //event.preventDefault();
-      //return false;
+      if (filtrarMensaje == false) {
+        alert(
+          "El contenido escrito sobrepasa las 150 palabras, recorte el texto por favor."
+        );
+        filtrarMensaje = true;
+        commentsInput.focus();
+      }
+    } else {
+      filtrarMensaje = false;
     }
   }, 500);
 }
@@ -328,7 +305,6 @@ function receiveContactList(event) {
 }
 
 //CLASES
-
 function ContactData(name, surname, email, phone, option, other, comments) {
   this.name = name;
   this.surname = surname;

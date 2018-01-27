@@ -41,7 +41,6 @@ function generate_table(data) {
   // Crea un elemento <table> y un elemento <tbody>
   var tabla = document.createElement("table");
   tabla.id = "tabla-contacto";
-  //console.log(tabla.id);
 
   var tblHead = document.createElement("tHead");
 
